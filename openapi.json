@@ -1,0 +1,258 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/": {
+      "get": {
+        "operationId": "AppController_getHello",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "App"
+        ]
+      }
+    },
+    "/m2m/v1/reservations": {
+      "get": {
+        "operationId": "M2mReservationsController_list",
+        "parameters": [
+          {
+            "name": "stationId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "M2mReservations"
+        ]
+      },
+      "post": {
+        "operationId": "M2mReservationsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateReservationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "M2mReservations"
+        ]
+      }
+    },
+    "/tasks": {
+      "post": {
+        "operationId": "TasksController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTaskDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Tasks"
+        ]
+      },
+      "get": {
+        "operationId": "TasksController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Tasks"
+        ]
+      }
+    },
+    "/tasks/{id}": {
+      "get": {
+        "operationId": "TasksController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Tasks"
+        ]
+      },
+      "patch": {
+        "operationId": "TasksController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTaskDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Tasks"
+        ]
+      },
+      "delete": {
+        "operationId": "TasksController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Tasks"
+        ]
+      }
+    },
+    "/reservations": {
+      "get": {
+        "operationId": "ReservationsController_list",
+        "parameters": [
+          {
+            "name": "stationId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Reservations"
+        ]
+      },
+      "post": {
+        "operationId": "ReservationsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateReservationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Reservations"
+        ]
+      }
+    },
+    "/oauth/token": {
+      "post": {
+        "operationId": "AuthController_token",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Ground Station API",
+    "description": "Ground Station API Contract",
+    "version": "1.0.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "CreateReservationDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateTaskDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateTaskDto": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  }
+}

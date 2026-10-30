@@ -1,0 +1,77 @@
+@base = http://localhost:3000
+
+### Book a slot (201)
+POST {{base}}/reservations
+Content-Type: application/json
+
+{ "stationId": "MAHIA-1", "missionName": "Electron F60",
+  "startsAt": "2026-11-01T10:00:00Z", "endsAt": "2026-11-01T11:00:00Z" }
+
+### Overlapping slot (409 Conflict)
+POST {{base}}/reservations
+Content-Type: application/json
+
+{ "stationId": "MAHIA-1", "missionName": "Photon P3",
+  "startsAt": "2026-11-01T10:30:00Z", "endsAt": "2026-11-01T12:00:00Z" }
+
+### Back-to-back slot (201: 11:00 start is fine)
+POST {{base}}/reservations
+Content-Type: application/json
+
+{ "stationId": "MAHIA-1", "missionName": "Photon P3",
+  "startsAt": "2026-11-01T11:00:00Z", "endsAt": "2026-11-01T12:00:00Z" }
+
+### Bad input (400 with a list of errors)
+POST {{base}}/reservations
+Content-Type: application/json
+
+{ "stationId": "", "startsAt": "nope", "hack": 1 }
+
+### List bookings for a station
+GET {{base}}/reservations?stationId=MAHIA-1
+
+### Get a token (expect 200)
+POST {{base}}/oauth/token
+Content-Type: application/json
+
+{ "grant_type": "client_credentials", "client_id": "mission-planner", "client_secret": "dev-secret-1" }
+
+### Wrong secret (expect 401)
+POST {{base}}/oauth/token
+Content-Type: application/json
+
+{ "grant_type": "client_credentials", "client_id": "mission-planner", "client_secret": "wrong" }
+
+### Read-write token
+# @name rw
+POST {{base}}/oauth/token
+Content-Type: application/json
+
+{ "grant_type": "client_credentials", "client_id": "mission-planner", "client_secret": "dev-secret-1" }
+
+### Read-only token
+# @name ro
+POST {{base}}/oauth/token
+Content-Type: application/json
+
+{ "grant_type": "client_credentials", "client_id": "ops-dashboard", "client_secret": "dev-secret-2" }
+
+### No token
+POST {{base}}/m2m/v1/reservations
+Content-Type: application/json
+
+{}
+
+### Read-only token tries to book
+POST {{base}}/m2m/v1/reservations
+Authorization: Bearer {{ro.response.body.access_token}}
+Content-Type: application/json
+
+{ "stationId": "MAHIA-1", "missionName": "Nope", "startsAt": "2026-11-03T00:00:00Z", "endsAt": "2026-11-03T01:00:00Z" }
+
+### Machine books (keep the browser console connected and watch)
+POST {{base}}/m2m/v1/reservations
+Authorization: Bearer {{rw.response.body.access_token}}
+Content-Type: application/json
+
+{ "stationId": "MAHIA-1", "missionName": "Photon P4", "startsAt": "2026-11-03T02:00:00Z", "endsAt": "2026-11-03T03:00:00Z" }
